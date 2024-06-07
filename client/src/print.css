@@ -1,0 +1,45 @@
+/* print.css */
+@media print {
+  .print-only {
+    display: block !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .ticket-container {
+    width: 58mm;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Evita la barra de desplazamiento */
+  }
+
+  .ticket-header {
+    font-size: 1.2em;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .ticket-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .ticket-table th, .ticket-table td {
+    padding: 5px;
+    text-align: left;
+  }
+
+  .ticket-table th {
+    border-bottom: 1px solid #ddd;
+  }
+
+  .product-col {
+    width: 70%;
+  }
+
+  .quantity-col, .subtotal-col {
+    width: 15%;
+  }
+}
