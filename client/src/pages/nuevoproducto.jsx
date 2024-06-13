@@ -1,6 +1,6 @@
 import React , { useRef, useState, useEffect} from 'react'
 import { BsCloudUpload , BsFillTrashFill} from 'react-icons/bs'
-import { useSelector} from 'react-redux/es/hooks/useSelector'
+import { useSelector} from 'react-redux'
 import {Link} from "react-router-dom"
 import Spinner from "../components/Spinner";
 import { useDispatch } from 'react-redux';
