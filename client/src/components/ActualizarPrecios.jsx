@@ -1,6 +1,6 @@
 import React, { useState,useRef, useEffect, } from 'react'
 import Spinner from './Spinner'
-import { useSelector } from 'react-redux/es/hooks/useSelector'
+import { useSelector } from 'react-redux'
 
 const ActualizarPrecios = () => {
 

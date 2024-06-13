@@ -1,6 +1,6 @@
 import React from 'react'
 import CategoriasPanel from '../components/CategoriasPanel'
-import { useSelector } from 'react-redux/es/hooks/useSelector'
+import { useSelector } from 'react-redux'
 import ProductsList from '../components/ProductsList'
 import ActualizarPrecios from "../components/ActualizarPrecios"
 import ProveedoresPanel from '../components/ProveedoresPanel'

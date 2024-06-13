@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table"
-import { useSelector } from 'react-redux/es/hooks/useSelector'
+import { useSelector } from 'react-redux'
 import { FaEdit } from "react-icons/fa"
 import Spinner from './Spinner'
 import { useDispatch } from 'react-redux'
