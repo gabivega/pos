@@ -7,6 +7,8 @@ import editUserRoutes from "./routes/user.js"
 import productsRoutes from "./routes/products.js"
 import categoriesRoutes from "./routes/categories.js"
 import proveedoresRoutes from "./routes/proveedores.js"
+import path from 'path';
+
 
 const app = express()
 dotenv.config()
@@ -32,12 +34,24 @@ mongoose.connect(mongoDb, {
     console.log("connected to DB");
 }).catch((err)=> console.log(err))
 
-app.get("/", (req, res) => {    
-    res.send(`hola putoooo estamos en port ${PORT}`)  
-})
+// app.get("/", (req, res) => {    
+//     res.send(`hola putoooo estamos en port ${PORT}`)  
+// })
 
 app.use(loginRoutes)
 app.use(editUserRoutes)
 app.use(productsRoutes)
 app.use(categoriesRoutes)
 app.use(proveedoresRoutes)
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('*', (req, res) => {
+  console.log(`Serving ${req.url}`);
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
+
+// app.listen(PORT, () => {
+//   console.log(`Server is running on http://localhost:${PORT}`);
+// });
