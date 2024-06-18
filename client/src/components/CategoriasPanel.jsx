@@ -26,7 +26,7 @@ const saveCategory = async (e) => {
     "nombreCategoria": saveFormRef.current.nombreCategoria.value,
     "margenCategoria": saveFormRef.current.margenCategoria.value
   }  
-  const guardarCategoria = await fetch(`${baseUrl}/guardarcategoria` {
+  const guardarCategoria = await fetch(`${baseUrl}/guardarcategoria`, {
     method: "POST",
     headers: {"content-type":"application/JSON"},
     body: JSON.stringify(formData)})  
