@@ -22,7 +22,7 @@ const NuevoProducto = () => {
   const proveedores = useSelector(state => state.proveedores)
   const dispatch = useDispatch()
 
-  const baseURl = process.env.REACT_APP_BASEURL
+  const baseUrl = process.env.REACT_APP_BASEURL
 
 // OBTENER PRECIO DOLAR BLUE
 
@@ -119,7 +119,7 @@ const showConfirmationModal = (e) => {
         // const resetForm = (form) => {
         //   Object.values(form.current)
         // }
-        const createPost = await fetch(`${baseURl}/newProduct`, {
+        const createPost = await fetch(`${baseUrl}/newProduct`, {
         method : "POST",
         headers: {"content-type":"application/JSON"},
         body: JSON.stringify(formData)})   

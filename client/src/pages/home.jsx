@@ -1,26 +1,26 @@
 import React, {useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setVisibleProducts } from '../state/state'
-import { setCategories } from '../state/state'
-// import Product from '../components/Product'
-import ProductsSlider from '../components/ProductsSlider'
-import InfoSection from '../components/InfoSection'
-import MiddleSectionSlider from '../components/MiddleSectionSlider'
-import UpperSectionSlider from '../components/UpperSectionSlider'
-import CategoriasPopulares from '../components/CategoriasPopulares'
+// import { setVisibleProducts } from '../state/state'
+// import { setCategories } from '../state/state'
+// // import Product from '../components/Product'
+// import ProductsSlider from '../components/ProductsSlider'
+// import InfoSection from '../components/InfoSection'
+// import MiddleSectionSlider from '../components/MiddleSectionSlider'
+// import UpperSectionSlider from '../components/UpperSectionSlider'
+// import CategoriasPopulares from '../components/CategoriasPopulares'
 import DashboardBar from '../components/DashboardBar'
 import { Outlet } from 'react-router-dom'
 import Login from './login'
 const HomePage = () => {
 const user = useSelector(state => state.user)
 
-const dispatch = useDispatch()
+//const dispatch = useDispatch()
 
 
-useEffect(() => {
-  getVisibleProducts()
-  getCategories()  
-}, [])
+// useEffect(() => {
+//   //getVisibleProducts()
+//  // getCategories()  
+// }, [])
 
 
   return (

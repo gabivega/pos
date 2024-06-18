@@ -20,7 +20,7 @@ const POSPage = () => {
     content: () => printRef.current,
   });
 
-  const baseURl = process.env.REACT_APP_BASEURL
+  const baseUrl = process.env.REACT_APP_BASEURL
 
   const handleAgregarProducto = (producto) => {
     const productoExistente = productosSeleccionados.find(item => item.codigo === producto.codigo);
