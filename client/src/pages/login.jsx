@@ -18,7 +18,7 @@ const Login = () => {
     setIsWrongCredentials(false);
   };
 
-  const baseURl = process.env.REACT_APP_BASEURL
+  const baseUrl = process.env.REACT_APP_BASEURL
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ const Login = () => {
         email: email,
         password: password,
       };
-      const response = await fetch(`${baseURl}/login`, {
+      const response = await fetch(`${baseUrl}/login`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
