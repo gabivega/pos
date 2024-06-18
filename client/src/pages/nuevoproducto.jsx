@@ -322,7 +322,7 @@ const showConfirmationModal = (e) => {
               </div> }                                
             </div> */}
             
-            <div className='flex flex-col gap-2 m-2 border-b-2 border-gray-400 p-1 hidden'>
+            <div className='flex-col gap-2 m-2 border-b-2 border-gray-400 p-1 hidden'>
                 <span className='text-white basis-1/4 '>Descripción</span>
                 <textarea 
                     type="text" 
@@ -354,7 +354,7 @@ const showConfirmationModal = (e) => {
                   name='codigo' />
             </div>
             </div>
-            <div className='flex gap-1 m-2 border-b-2 border-gray-400 p-1 hidden'>
+            <div className='gap-1 m-2 border-b-2 border-gray-400 p-1 hidden'>
               <span className='text-white select-none'>
                 Visible en Tienda:
               </span>

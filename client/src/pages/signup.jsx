@@ -50,7 +50,7 @@ const handleSubmit = async (e)=> {
       email: data.email,
       password: data.password
     } 
-    const register = await fetch(`${baseURl}/register`, {
+    const register = await fetch(`${baseUrl}/register`, {
       method: "POST",
       headers: {
         "content-type": "application/json" 

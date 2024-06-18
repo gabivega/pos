@@ -31,7 +31,7 @@ const ProductsList = () => {
   const baseUrl = process.env.REACT_APP_BASEURL
 
   const getProducts = async () => {
-    const productsRequest = await fetch(`${baseURl}/products`, {
+    const productsRequest = await fetch(`${baseUrl}/products`, {
       method: "GET",
       headers: {"content-type": "application/json"}
     })
