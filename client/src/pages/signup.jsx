@@ -15,6 +15,8 @@ const [isRegisterError, setIsRegisterError] = useState(false)
 const [isDuplicatedMail, setIsDuplicatedMail] = useState(false)
 const [isLoading, setIsLoading] = useState(false)
 
+const baseUrl = process.env.REACT_APP_BASEURL
+
 const setInitialState = () => {
   setIsAccountCreated(false)
   setIsPasswordMatch(false)
@@ -48,7 +50,7 @@ const handleSubmit = async (e)=> {
       email: data.email,
       password: data.password
     } 
-    const register = await fetch("http://localhost:3001/register", {
+    const register = await fetch(`${baseURl}/register`, {
       method: "POST",
       headers: {
         "content-type": "application/json" 

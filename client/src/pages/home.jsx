@@ -13,27 +13,9 @@ import { Outlet } from 'react-router-dom'
 import Login from './login'
 const HomePage = () => {
 const user = useSelector(state => state.user)
-// const products = useSelector(state => state.products)
-// const stateCategories = useSelector(state => state.categories)
+
 const dispatch = useDispatch()
 
-
-const getVisibleProducts = async () => {
-  const productsRequest = await fetch("http://localhost:3001/visibleproducts", {
-    method: "GET",
-    headers: {"content-type": "application/json"}
-  })
-  const products = await productsRequest.json()
-  dispatch(setVisibleProducts({products}))  
-}
-const getCategories = async () => {
-  const req = await fetch("http://localhost:3001/obtenercategorias", {
-    method: "GET",
-    headers: {"content-type":"application/JSON"}})
-    const categorias = await req.json()
-    dispatch(setCategories({categorias}))   
-  }
-  
 
 useEffect(() => {
   getVisibleProducts()

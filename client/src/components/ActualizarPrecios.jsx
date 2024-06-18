@@ -12,9 +12,10 @@ const ActualizarPrecios = () => {
   const [proveedores, setProveedores] = useState([])
   const [filtro, setFiltro] = useState("");
 
+  const baseURl = process.env.REACT_APP_BASEURL
 
   const getProveedores = async () => {
-    const req = await fetch("http://localhost:3001/getProveedores", {
+    const req = await fetch(`${baseURl}/getProveedores`, {
       method: "GET",
       headers: {"content-type":"application/JSON"}})
       const res = await req.json()
@@ -28,7 +29,7 @@ const ActualizarPrecios = () => {
       "variacion": parseFloat(variacionCategoriaRef.current.value)
     }
     console.log(formData);
-    const actualizacion = await fetch("http://localhost:3001/actualizarPorCategoria", {
+    const actualizacion = await fetch(`${baseURl}/actualizarPorCategoria`, {
       method: "PATCH",
       headers: {"content-type": "application/json"},
       body: JSON.stringify(formData)
@@ -42,7 +43,7 @@ const ActualizarPrecios = () => {
       "variacion": parseFloat(variacionProveedorRef.current.value)
     }
     console.log(formData);
-    const actualizacion = await fetch("http://localhost:3001/actualizarPorProveedor", {
+    const actualizacion = await fetch(`${baseURl}/actualizarPorProveedor`, {
       method: "PATCH",
       headers: {"content-type": "application/json"},
       body: JSON.stringify(formData)

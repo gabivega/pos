@@ -22,6 +22,8 @@ const NuevoProducto = () => {
   const proveedores = useSelector(state => state.proveedores)
   const dispatch = useDispatch()
 
+  const baseURl = process.env.REACT_APP_BASEURL
+
 // OBTENER PRECIO DOLAR BLUE
 
 const fetchDolarBlueValue = async () => {
@@ -49,7 +51,7 @@ const showConfirmationModal = (e) => {
 }
 // OBTENER PROVEEDORES
   const getProveedores = async () => {
-  const req = await fetch("http://localhost:3001/getProveedores", {
+  const req = await fetch(`${baseUrl}/getProveedores`, {
     method: "GET",
     headers: {"content-type":"application/JSON"}})
     const proveedores = await req.json()
@@ -117,7 +119,7 @@ const showConfirmationModal = (e) => {
         // const resetForm = (form) => {
         //   Object.values(form.current)
         // }
-        const createPost = await fetch("http://localhost:3001/newproduct", {
+        const createPost = await fetch(`${baseURl}/newProduct`, {
         method : "POST",
         headers: {"content-type":"application/JSON"},
         body: JSON.stringify(formData)})   

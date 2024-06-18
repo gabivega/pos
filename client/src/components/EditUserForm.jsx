@@ -8,6 +8,8 @@ const EditUserForm = (props) => {
     const formRef = useRef(null)
     const editFunction = props.funcion
     const dispatch = useDispatch()
+
+    const baseUrl = process.env.REACT_APP_BASEURL
     
         //  DATE FORMAT
   const slicedRawDate = user.createdAt.slice(0,10)
@@ -28,7 +30,7 @@ const EditUserForm = (props) => {
     }
     console.log(formData);
     
-    const editUser = await fetch("http://localhost:3001/edituser", {
+    const editUser = await fetch(`${baseUrl}/edituser`, {
     method : "PUT",
     headers: {
       "content-type":"application/JSON"},

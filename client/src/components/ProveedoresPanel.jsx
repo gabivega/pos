@@ -12,9 +12,10 @@ const ProveedoresPanel = () => {
   const eliminarProveedorRef = useRef(null)
   const [updatedProveedores, setUpdatedProveedores] = useState(proveedores)
 
+  const baseUrl = process.env.REACT_APP_BASEURL
 // OBTENER PROVEEDORES
   const getProveedores = async () => {
-  const req = await fetch("http://localhost:3001/getProveedores", {
+  const req = await fetch(`${baseUrl}/getProveedores`, {
     method: "GET",
     headers: {"content-type":"application/JSON"}})
     const proveedores = await req.json()
@@ -27,7 +28,7 @@ const ProveedoresPanel = () => {
   setIsLoading(true)
   const proveedor = proveedorRef.current.value;
   const data = {proveedor : proveedor}
-  const save = await fetch("http://localhost:3001/crearProveedor", {
+  const save = await fetch(`${baseUrl}/crearProveedor`, {
     method:"POST",
     headers: {"content-type":"application/json"},
     body: JSON.stringify(data)
@@ -42,7 +43,7 @@ const eliminarProveedor = async (e) => {
   e.preventDefault()
   setIsLoading(true)
   const proveedorEliminado = eliminarProveedorRef.current.value
-  const eliminar = await fetch("http://localhost:3001/deleteProveedor", {
+  const eliminar = await fetch(`${baseUrl}/deleteProveedor`, {
     method: "DELETE",
     headers: {"content-type":"application/JSON"},
     body: JSON.stringify({proveedorEliminado})

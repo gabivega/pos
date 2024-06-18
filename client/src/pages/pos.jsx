@@ -20,6 +20,8 @@ const POSPage = () => {
     content: () => printRef.current,
   });
 
+  const baseURl = process.env.REACT_APP_BASEURL
+
   const handleAgregarProducto = (producto) => {
     const productoExistente = productosSeleccionados.find(item => item.codigo === producto.codigo);
     if (productoExistente) {
@@ -87,7 +89,7 @@ const POSPage = () => {
   };
 
   const getProducts = async () => {
-    const productsRequest = await fetch('http://localhost:3001/products', {
+    const productsRequest = await fetch(`${baseUrl}/products`, {
       method: 'GET',
       headers: { 'content-type': 'application/json' },
     });

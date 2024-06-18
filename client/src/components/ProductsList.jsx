@@ -28,8 +28,10 @@ const ProductsList = () => {
   const [quantity, setQuantity] = useState(1)
   const [salePrice, setSalePrice] = useState('')
 
+  const baseUrl = process.env.REACT_APP_BASEURL
+
   const getProducts = async () => {
-    const productsRequest = await fetch("http://localhost:3001/products", {
+    const productsRequest = await fetch(`${baseURl}/products`, {
       method: "GET",
       headers: {"content-type": "application/json"}
     })

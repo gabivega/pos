@@ -17,7 +17,7 @@ const [isError, setIsError] = useState(false)
 const [savedOk, setSavedOk] = useState(false)
 const [isLoading, setIsLoading] = useState(false)
 
-
+const baseUrl = process.env.REACT_APP_BASEURL
 // FUNCION GUARDAR CATEGORIA
 const saveCategory = async (e) => {
   e.preventDefault()
@@ -26,7 +26,7 @@ const saveCategory = async (e) => {
     "nombreCategoria": saveFormRef.current.nombreCategoria.value,
     "margenCategoria": saveFormRef.current.margenCategoria.value
   }  
-  const guardarCategoria = await fetch("http://localhost:3001/guardarcategoria", {
+  const guardarCategoria = await fetch(`${baseUrl}/guardarcategoria` {
     method: "POST",
     headers: {"content-type":"application/JSON"},
     body: JSON.stringify(formData)})  
@@ -60,7 +60,7 @@ const saveCategory = async (e) => {
         "nombreCategoria": editFormRef.current.nombreCategoria.value,
         "margenCategoria": editFormRef.current.margenCategoria.value
       }  
-      const edit = await fetch("http://localhost:3001/editarcategoria", {
+      const edit = await fetch(`${baseUrl}/editarcategoria`, {
         method: "PATCH",
         headers: {"content-type": "application/json"},
         body: JSON.stringify(formData)
@@ -85,7 +85,7 @@ const deleteCategory = async (e) => {
   if (categoriaSeleccionada === "Elija una categoria..") {
     setIsLoading(false)
     return}
-    const eliminar = await fetch("http://localhost:3001/eliminarcategoria", {
+    const eliminar = await fetch(`${baseUrl}/eliminarcategoria`, {
     method: "DELETE",
     headers: {"content-type":"application/JSON"},
     body: JSON.stringify({categoriaSeleccionada})
