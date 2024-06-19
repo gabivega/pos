@@ -276,7 +276,7 @@ const showConfirmationModal = (e) => {
                   maxLength={4}
                   name='margen'
                   id="margen"
-                  value={categorias[0].margenCategoria}
+                  value={categorias[0].margen}
                    />
                 </div>
               <div className='flex flex-col'>
