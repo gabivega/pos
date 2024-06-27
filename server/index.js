@@ -14,15 +14,15 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-const FRONT_URL = process.env.FRONT_URL;
+//const FRONT_URL = process.env.FRONT_URL;
 
 app.use(cors({
-  origin: FRONT_URL,
+  origin: 'https://pos-front.onrender.com/',
   methods: ['GET', 'POST', 'DELETE', 'PATCH', 'OPTIONS'],
   credentials: true, // Permitir credenciales si es necesario
 }));
 
-app.options('*', cors()); // Manejar solicitudes preflight
+//app.options('*', cors()); // Manejar solicitudes preflight
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Servidor funcionando en puerto ${PORT}`));
