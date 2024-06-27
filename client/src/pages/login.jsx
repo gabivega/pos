@@ -35,6 +35,7 @@ const Login = () => {
           "content-type": "application/json",
         },
         body: JSON.stringify(loginData),
+        credentials: 'include'
       });
       const loggedIn = await response.json();
       if (loggedIn) {
