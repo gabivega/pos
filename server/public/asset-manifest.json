@@ -1,21 +1,15 @@
 {
   "files": {
     "main.css": "/static/css/main.09f4f86f.css",
-    "main.js": "/static/js/main.ee05f1e3.js",
-    "static/media/3.jpg": "/static/media/3.cfca25b283bcf848594e.jpg",
-    "static/media/2.jpg": "/static/media/2.b1ba0a956cfe59886713.jpg",
-    "static/media/crossmaster-banner.jpg": "/static/media/crossmaster-banner.df11131ca85c86bad9a7.jpg",
-    "static/media/tramontina-banner.JPG": "/static/media/tramontina-banner.15e050e782a7cfe29ad3.JPG",
-    "static/media/banner-cabezales.JPG": "/static/media/banner-cabezales.17884fc570eea8cdf601.JPG",
-    "static/media/bolts-banner.jpg": "/static/media/bolts-banner.e14e5e7ef7a68e87ef04.jpg",
+    "main.js": "/static/js/main.6eb968d4.js",
     "static/media/logo.png": "/static/media/logo.bca282fa6f12d5b87025.png",
     "static/media/logoSmall.jpg": "/static/media/logoSmall.e2a6e19847770fb77d01.jpg",
     "index.html": "/index.html",
     "main.09f4f86f.css.map": "/static/css/main.09f4f86f.css.map",
-    "main.ee05f1e3.js.map": "/static/js/main.ee05f1e3.js.map"
+    "main.6eb968d4.js.map": "/static/js/main.6eb968d4.js.map"
   },
   "entrypoints": [
     "static/css/main.09f4f86f.css",
-    "static/js/main.ee05f1e3.js"
+    "static/js/main.6eb968d4.js"
   ]
 }

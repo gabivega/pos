@@ -26,7 +26,7 @@ const TicketModal = ({ productosSeleccionados, total, onClose }) => {
                 <th className="subtotal-col text-xs text-right">$</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className='gap-4 py-4'>
               {productosSeleccionados.map((item, index) => (
                 <tr key={index} className='border-b border-gray-800'>
                   <td className="product-col text-xs">{item.titulo}</td>
