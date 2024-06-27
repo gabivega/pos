@@ -32,7 +32,7 @@ const TicketModal = ({ productosSeleccionados, total, onClose }) => {
                   <td className="product-col text-xs">{item.titulo}</td>
                   <td className="quantity-col text-xs text-center">{item.quantity}</td>
                   <td className="subtotal-col text-xs text-right">
-                    {(item.quantity * item.precioVenta).toFixed(2)}
+                   $ {(item.quantity * item.precioVenta).toFixed(2)}
                   </td>
                 </tr>
               ))}
