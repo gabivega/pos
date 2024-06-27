@@ -13,9 +13,10 @@ import path from 'path';
 const app = express()
 dotenv.config()
 app.use(express.json())
+const FRONT_URL = process.env.FRONT_URL
 app.use(
     cors({
-      origin: "*",
+      origin: 'FRONT_URL',
       methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS"],
     }),
   );
