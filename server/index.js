@@ -16,7 +16,7 @@ app.use(express.json())
 const FRONT_URL = process.env.FRONT_URL
 app.use(
     cors({
-      origin: 'FRONT_URL',
+      origin: FRONT_URL,
       methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS"],
     }),
   );
