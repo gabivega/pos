@@ -268,7 +268,7 @@ const showConfirmationModal = (e) => {
                     name='precioCostoUsd'
                     maxLength={10}/>
                 </div>
-              <div className='flex flex-col'>            
+              {/* <div className='flex flex-col'>            
                 <span className='text-white basis-1/4'>Margen</span>
                 <input 
                   type="text" 
@@ -278,7 +278,7 @@ const showConfirmationModal = (e) => {
                   id="margen"
                   value={categorias[0].margen}
                    />
-                </div>
+                </div> */}
               <div className='flex flex-col'>
                 <span className='text-white basis-1/4'>Precio de Venta</span>
                 <input 
