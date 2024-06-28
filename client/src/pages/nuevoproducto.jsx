@@ -99,7 +99,7 @@ const showConfirmationModal = (e) => {
         "precioCosto": formRef.current.precioCosto.value,
         "precioCostoUsd": formRef.current.precioCostoUsd.value,
         "precioVenta": formRef.current.precioVenta.value,
-        "margen": formRef.current.margen.value,
+        // "margen": formRef.current.margen.value,
         "stock": formRef.current.stock.value,
         "imagen": imageUrl,
         "descripcion": formRef.current.descripcion.value,
@@ -138,8 +138,8 @@ const showConfirmationModal = (e) => {
     //CALCULADOR PRECIO VENTA
     const calculadorPrecioVenta = () => {
       let costo = Number(formRef.current.precioCosto.value);
-      let margen = Number(formRef.current.margen.value);
-      setPrecioSugerido(costo + costo*(margen/100))
+      // let margen = Number(formRef.current.margen.value);
+      // setPrecioSugerido(costo + costo*(margen/100))
       calculadorUsd()
     }
     //CALCULADOR PRECIO COSTO EN USD
@@ -180,9 +180,9 @@ const showConfirmationModal = (e) => {
               <span className='bg-slate-500 p-1 rounded-md my-1'>
                 <p>Precio de Costo: {formRef.current.precioCosto.value || ""}</p>
               </span>
-              <span className='bg-slate-500 p-1 rounded-md my-1'>
+              {/* <span className='bg-slate-500 p-1 rounded-md my-1'>
                 <p>Margen: {formRef.current.margen.value || ""}</p>
-                </span>
+                </span> */}
               <span className='bg-slate-500 p-1 rounded-md my-1'>
                 <p>Precio de venta: {formRef.current.precioVenta.value || ""}</p>
               </span>
