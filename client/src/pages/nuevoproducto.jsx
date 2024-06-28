@@ -90,7 +90,7 @@ const showConfirmationModal = (e) => {
     const submitProduct = async (e) => {
       e.preventDefault()
       setIsLoading(true)
-      const imageUrl = await cloudinaryUpload()
+      //const imageUrl = await cloudinaryUpload()
       // FORMDATA OBJECT
       const formData = {
         "categoria": formRef.current.categoria.value,
