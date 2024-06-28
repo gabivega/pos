@@ -15,7 +15,7 @@ dotenv.config()
 app.use(express.json())
 app.use(
     cors({
-      origin: "*",
+      origin: "https://pos-front.onrender.com/",
       methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS"],
     }),
   );
