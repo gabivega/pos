@@ -40,6 +40,47 @@ try {
 }
 }
 
+// EDITAR INDIVIDUALMENTE
+
+export const editProduct = async (req, res) => {
+  try {
+          const {
+          categoria, 
+          titulo,
+          marca, 
+          precioVenta, 
+          precioCosto,
+          precioCostoUsd, 
+          margen, 
+          stock, 
+          imagen,
+          descripcion,
+          proveedor,
+          codigo} = req.body
+          console.log(req.body);
+      const editedProduct = Product.findByIdAndUpdate(codigo,{
+          categoria: categoria, 
+          titulo: titulo,
+          marca: marca, 
+          precioVenta: precioVenta, 
+          precioCosto: precioCosto,
+          precioCostoUsd: precioCostoUsd, 
+          margen: margen, 
+          stock: stock, 
+          imagen:imagen,
+          descripcion:descripcion,
+          proveedor:proveedor,
+          codigo:codigo,
+      })
+      // const savedProduct = await newProduct.save()
+      console.log(editedProduct);
+      res.status(200).json(editedProduct)
+  } catch (error) {
+      res.status(500).json({error: error.message})
+  }
+  }
+
+
 export const getProducts = async(req,res) => {
   try {
     const products = await Product.find()
@@ -49,16 +90,6 @@ export const getProducts = async(req,res) => {
     res.status(404).json
 }
 }
-// export const getVisibleProducts = async(req,res) => {
-//   try {
-//     const products = await Product.find({ visibleEnTienda: "verdadero"})
-//     console.log(products);
-//     res.status(200).json(products)
-    
-//   } catch (error) {
-//     res.status(404).json
-// }
-// }
 
 export const actualizarPorCategoria = async (req,res) => {
   try {
