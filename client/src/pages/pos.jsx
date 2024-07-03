@@ -33,7 +33,7 @@ const POSPage = () => {
 
   const handleQuantityChange = (index, newQuantity) => {
     const updatedItems = productosSeleccionados.map((item, i) =>
-      i === index ? { ...item, quantity: parseInt(newQuantity) } : item
+      i === index ? { ...item, quantity: parseFloat(newQuantity) } : item
     );
     setProductosSeleccionados(updatedItems);
   };
@@ -192,6 +192,7 @@ const POSPage = () => {
                 <td className="px-2 py-4 whitespace-nowrap">
                   <input
                     type="number"
+                    step="0.001"
                     className="w-16 p-1 border rounded"
                     value={item.quantity}
                     onChange={(e) => handleQuantityChange(index, e.target.value)}
