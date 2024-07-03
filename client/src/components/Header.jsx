@@ -178,27 +178,8 @@ const Header = () => {
         //--**---**---**-- MOBILE VERSION --**---**---**--
 
         <div className="flex gap-4 h-[100px]">
-          {/* LOGO SECTION  */}
-          <div className="h-full flex items-center basis-1/4">
-            <Link to="/" className="flex ">
-              <img src={logoBig} alt="" className="object-contain" />
-            </Link>
-          </div>
-
-          {/* SEARCH - MIDLE SECTION */}
-          <div className="flex items-center w-full mx-auto px-4 gap-2">
-            <div className="flex gap-2 w-full">
-              <SearchBar />
-              <div className="flex items-center h-[40px]">
-                <MdMenu className="text-white" size={30} />
-              </div>
-            </div>
-            {/* {user && <div className="text-white absolute top-[72px]"><Link to={"/nuevoproducto"}>Crear Producto</Link></div>}
-             */}
-          </div>
 
           {/* ACCOUNT-CART SECTION */}
-
           <div className="flex items-center gap-2 h-full basis-1/8 mx-auto">
             <div className="flex justify-around gap-2 h-[40px] mx-auto ">
               <div className="flex items-center " ref={userMenuRef}>
@@ -270,11 +251,6 @@ const Header = () => {
                     )}
                   </div>
                 )}
-              </div>
-              <div className="flex items-center">
-                <Link to={"/carrito"} className="">
-                  <BsCartFill className="text-white" size={24} />
-                </Link>
               </div>
             </div>
           </div>

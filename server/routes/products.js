@@ -1,10 +1,11 @@
 import express from "express"
-import { newProduct , getProducts, actualizarPorCategoria, actualizarPorProveedor} from "../controllers/products.js";
+import { newProduct , getProducts, actualizarPorCategoria, actualizarPorProveedor, editProduct} from "../controllers/products.js";
 
 const router = express.Router();
 
 router.post("/newproduct", newProduct);
 router.get("/products", getProducts);
+router.patch("/editproduct", editProduct)
 // router.get("/visibleproducts", getVisibleProducts);
 router.patch("/actualizarPorCategoria", actualizarPorCategoria)
 router.patch("/actualizarPorProveedor", actualizarPorProveedor)

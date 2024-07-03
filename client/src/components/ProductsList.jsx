@@ -69,7 +69,6 @@ const ProductsList = () => {
   const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel() })
 
   const editarProducto = (row) => {
-    console.log(row.proveedor);
     setShowModal(true)
     setEditando(row)
     setTitulo(row.titulo)
@@ -83,7 +82,7 @@ const ProductsList = () => {
     setProveedor(row.proveedor)
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const updatedProduct = {
       ...editando,
       titulo,
