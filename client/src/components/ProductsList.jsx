@@ -94,10 +94,15 @@ const ProductsList = () => {
       proveedor
     }
     // Actualiza el producto en el estado (este es un placeholder; en el futuro se llamará a una API)
-    const updatedProducts = products.map(product => 
-      product.codigo === updatedProduct.codigo ? updatedProduct : product
-    )
-    dispatch(setProducts({ products: updatedProducts }))
+    const updateProduct = await fetch(`${baseUrl}/editProduct`, {
+      method: 'PATCH',
+      headers: {"content-type": "application/json"},
+      body: JSON.stringify("HOLA PROBANDO")
+    })
+    // const updatedProducts = products.map(product => 
+    //   product.codigo === updatedProduct.codigo ? updatedProduct : product
+    // )
+    // dispatch(setProducts({ products: updatedProducts }))
     setShowModal(false)
   }
 

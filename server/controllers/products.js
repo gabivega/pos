@@ -58,23 +58,23 @@ export const editProduct = async (req, res) => {
           proveedor,
           codigo} = req.body
           console.log(req.body);
-      const editedProduct = Product.findByIdAndUpdate(codigo,{
-          categoria: categoria, 
-          titulo: titulo,
-          marca: marca, 
-          precioVenta: precioVenta, 
-          precioCosto: precioCosto,
-          precioCostoUsd: precioCostoUsd, 
-          margen: margen, 
-          stock: stock, 
-          imagen:imagen,
-          descripcion:descripcion,
-          proveedor:proveedor,
-          codigo:codigo,
-      })
+      // const editedProduct = Product.findByIdAndUpdate(codigo,{
+      //     categoria: categoria, 
+      //     titulo: titulo,
+      //     marca: marca, 
+      //     precioVenta: precioVenta, 
+      //     precioCosto: precioCosto,
+      //     precioCostoUsd: precioCostoUsd, 
+      //     margen: margen, 
+      //     stock: stock, 
+      //     imagen:imagen,
+      //     descripcion:descripcion,
+      //     proveedor:proveedor,
+      //     codigo:codigo,
+      // })
       // const savedProduct = await newProduct.save()
-      console.log(editedProduct);
-      res.status(200).json(editedProduct)
+      console.log("HOLA EDITED PRODUCT");
+      res.status(200).json("editedProduct")
   } catch (error) {
       res.status(500).json({error: error.message})
   }
