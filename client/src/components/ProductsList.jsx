@@ -5,7 +5,6 @@ import { FaEdit } from "react-icons/fa"
 import Spinner from './Spinner'
 import { useDispatch } from 'react-redux'
 import { setProducts } from '../state/state'
-import { addToPointOfSale } from '../state/state'
 
 const ProductsList = () => {
   const [showModal, setShowModal] = useState(false)
@@ -37,12 +36,6 @@ const ProductsList = () => {
     })
     const products = await productsRequest.json()
     dispatch(setProducts({ products }))
-  }
-
-  const handleAddToPOS = (product) => {
-    setAddingProduct(product)
-    setQuantity(1)
-    setSalePrice('')
   }
 
   const datosFiltrados = useMemo(() => {
@@ -83,8 +76,8 @@ const ProductsList = () => {
   }
 
   const handleSave = async () => {
-    const updatedProduct = {
-      ...editando,
+    const updatedFields = {
+      "id": editando._id,
       titulo,
       marca,
       precioCosto,
@@ -92,19 +85,41 @@ const ProductsList = () => {
       descripcion,
       codigo,
       proveedor
+    };
+  
+    // Filtrar los campos que no se han modificado o que están vacíos
+    const fieldsToUpdate = {};
+    for (let key in updatedFields) {
+      if (updatedFields[key] !== undefined && updatedFields[key] !== editando[key]) {
+        fieldsToUpdate[key] = updatedFields[key];
+      }
     }
-    // Actualiza el producto en el estado (este es un placeholder; en el futuro se llamará a una API)
-    const updateProduct = await fetch(`${baseUrl}/editProduct`, {
-      method: 'PATCH',
-      headers: {"content-type": "application/json"},
-      body: JSON.stringify("HOLA PROBANDO")
-    })
-    // const updatedProducts = products.map(product => 
-    //   product.codigo === updatedProduct.codigo ? updatedProduct : product
-    // )
-    // dispatch(setProducts({ products: updatedProducts }))
-    setShowModal(false)
-  }
+  
+    try {
+      const response = await fetch(`${baseUrl}/editproduct`, {
+        method: 'PATCH',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fieldsToUpdate)
+      });
+  
+      if (!response.ok) {
+        throw new Error("Error al actualizar el producto");
+      }
+  
+      const result = await response.json();
+      console.log(result);
+  
+    //  Actualiza el estado si es necesario
+      // const updatedProducts = products.map(product => 
+      //   product._id === updatedProduct._id ? updatedProduct : product
+      // );
+      // dispatch(setProducts({ products: updatedProducts }));
+      
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error al actualizar el producto:", error);
+    }
+  };
 
   useEffect(() => {
     getProducts()
@@ -118,6 +133,7 @@ const ProductsList = () => {
         value={filtro}
         onChange={e => setFiltro(e.target.value)}
         placeholder="Buscar por código, título o marca"
+        className= "my-4 w-[40%]"
       />
       {showModal &&
         <div className="bg-black inset-0 fixed bg-opacity-30 backdrop-blur-sm flex justify-center items-center w-full h-full">
@@ -165,8 +181,8 @@ const ProductsList = () => {
             </div>
           </div>
         </div>}
-      <div className="w3-container h-full overflow-scroll">
-        <table className="w3-table-all m-0">
+      <div className="w3-container h-full ">
+        <table className="w3-table-all m-0 ">
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup._id}>
               {headerGroup.headers.map(header => (
@@ -179,11 +195,11 @@ const ProductsList = () => {
               ))}
             </tr>
           ))}
-          <tbody>
+          <tbody className=''>
             {table.getRowModel().rows.map(row => (
               <tr key={row._id}>
                 {row.getVisibleCells().map(cell => (
-                  <td key={cell._id}>
+                  <td key={cell._id} className='text-sm'>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

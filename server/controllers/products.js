@@ -34,6 +34,7 @@ try {
     })
     const savedProduct = await newProduct.save()
     console.log(savedProduct);
+    console.log(savedProduct._id);
     res.status(200).json(savedProduct)
 } catch (error) {
     res.status(500).json({error: error.message})
@@ -45,6 +46,7 @@ try {
 export const editProduct = async (req, res) => {
   try {
           const {
+          id,
           categoria, 
           titulo,
           marca, 
@@ -52,29 +54,29 @@ export const editProduct = async (req, res) => {
           precioCosto,
           precioCostoUsd, 
           margen, 
-          stock, 
-          imagen,
+          stock,
           descripcion,
           proveedor,
           codigo} = req.body
           console.log(req.body);
-      // const editedProduct = Product.findByIdAndUpdate(codigo,{
-      //     categoria: categoria, 
-      //     titulo: titulo,
-      //     marca: marca, 
-      //     precioVenta: precioVenta, 
-      //     precioCosto: precioCosto,
-      //     precioCostoUsd: precioCostoUsd, 
-      //     margen: margen, 
-      //     stock: stock, 
-      //     imagen:imagen,
-      //     descripcion:descripcion,
-      //     proveedor:proveedor,
-      //     codigo:codigo,
-      // })
-      // const savedProduct = await newProduct.save()
-      console.log("HOLA EDITED PRODUCT");
-      res.status(200).json("editedProduct")
+          
+      const editedProduct = await Product.findByIdAndUpdate(id,{
+          categoria: categoria, 
+          titulo: titulo,
+          marca: marca, 
+          precioVenta: precioVenta, 
+          precioCosto: precioCosto,
+          precioCostoUsd: precioCostoUsd, 
+          margen: margen, 
+          stock: stock, 
+          descripcion:descripcion,
+          proveedor:proveedor,
+          codigo:codigo,
+      },
+    {new: true})
+      console.log("este es el producto",editedProduct);
+    //  const savedProduct = await newProduct.save()
+      res.status(200).json(editedProduct)
   } catch (error) {
       res.status(500).json({error: error.message})
   }

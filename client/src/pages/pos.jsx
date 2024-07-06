@@ -160,6 +160,9 @@ const POSPage = () => {
                 Cantidad
               </th>
               <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/6">
+                P.Costo
+              </th>
+              <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/6">
                 Precio de Venta
               </th>
               <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/6">
@@ -197,6 +200,15 @@ const POSPage = () => {
                     value={item.quantity}
                     onChange={(e) => handleQuantityChange(index, e.target.value)}
                   />
+                </td>
+                <td className="px-2 py-4 whitespace-nowrap">
+                  <div>{item.precioCosto}</div>
+                    {/* type="number"
+                    step="0.01"
+                    className="w-24 p-1 border rounded"
+                    value={item.precioCosto}
+                    onChange={(e) => handlePriceChange(index, e.target.value)}
+                  /> */}
                 </td>
                 <td className="px-2 py-4 whitespace-nowrap">
                   <input

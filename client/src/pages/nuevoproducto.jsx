@@ -1,14 +1,15 @@
 import React , { useRef, useState, useEffect} from 'react'
-import { BsCloudUpload , BsFillTrashFill} from 'react-icons/bs'
+//import { BsCloudUpload , BsFillTrashFill} from 'react-icons/bs'
 import { useSelector} from 'react-redux'
 import {Link} from "react-router-dom"
 import Spinner from "../components/Spinner";
 import { useDispatch } from 'react-redux';
 import { setProveedores } from '../state/state';
+import { setCategories } from '../state/state';
 
 const NuevoProducto = () => {
-  const [uploadedImage, setUploadedImage] = useState(null)
-  const [imageUrl, setImageUrl] = useState({})
+  //const [uploadedImage, setUploadedImage] = useState(null)
+  //const [imageUrl, setImageUrl] = useState({})
   const [isNuevaCategoria, setIsNuevaCategoria] = useState(false)
   const [showModal, setShowModal]= useState(false)
   const [precioSugerido, setPrecioSugerido] = useState(0)
@@ -55,37 +56,46 @@ const showConfirmationModal = (e) => {
     method: "GET",
     headers: {"content-type":"application/JSON"}})
     const proveedores = await req.json()
-    dispatch(setProveedores({proveedores}))   
+    dispatch(setProveedores({proveedores}))
+//    console.log(proveedores);   
+  }
+  const getCategorías = async () => {
+  const req = await fetch(`${baseUrl}/obtenerCategorias`, {
+    method: "GET",
+    headers: {"content-type":"application/JSON"}})
+    const categorias = await req.json()
+   dispatch(setCategories({categorias}))
+   console.log(categorias);   
   }
 
   // CONVERT IMAGE TO BASE 64
-  const uploadImage = (e) => {
-      const files = e.target.files
-      const reader = new FileReader()
-      reader.onload = () => {     
-        setUploadedImage(reader.result)
-      }
-      reader.readAsDataURL(files[0])      
-    }
+  // const uploadImage = (e) => {
+  //     const files = e.target.files
+  //     const reader = new FileReader()
+  //     reader.onload = () => {     
+  //       setUploadedImage(reader.result)
+  //     }
+  //     reader.readAsDataURL(files[0])      
+  //   }
 
     // UPLOAD IMAGE TO CLOUDINARY FUNCTION
-    const cloudinaryUpload = async ()=>{
-      let cloudinaryFormData = new FormData();
-      cloudinaryFormData.append("file", uploadedImage)
-      cloudinaryFormData.append("upload_preset","jmxyjty3")
-      cloudinaryFormData.append("cloud_name","emprenet")
-      try {
-        const upload = await fetch("https://api.cloudinary.com/v1_1/emprenet/image/upload",
-        {method: "POST",
-        body:cloudinaryFormData})        
-        const cloudinaryResponse = await upload.json()
-        return cloudinaryResponse.secure_url
+    // const cloudinaryUpload = async ()=>{
+    //   let cloudinaryFormData = new FormData();
+    //   cloudinaryFormData.append("file", uploadedImage)
+    //   cloudinaryFormData.append("upload_preset","jmxyjty3")
+    //   cloudinaryFormData.append("cloud_name","emprenet")
+    //   try {
+    //     const upload = await fetch("https://api.cloudinary.com/v1_1/emprenet/image/upload",
+    //     {method: "POST",
+    //     body:cloudinaryFormData})        
+    //     const cloudinaryResponse = await upload.json()
+    //     return cloudinaryResponse.secure_url
               
-      } 
-      catch (error) {
-        console.log({error: error.message});
-      }          
-    }
+    //   } 
+    //   catch (error) {
+    //     console.log({error: error.message});
+    //   }          
+    // }
 // SUBMIT FORM FUNCTION
     const submitProduct = async (e) => {
       e.preventDefault()
@@ -101,7 +111,7 @@ const showConfirmationModal = (e) => {
         "precioVenta": formRef.current.precioVenta.value,
         // "margen": formRef.current.margen.value,
         "stock": formRef.current.stock.value,
-        "imagen": imageUrl,
+       // "imagen": imageUrl,
         "descripcion": formRef.current.descripcion.value,
         "codigo": formRef.current.codigo.value,
         "proveedor" : formRef.current.proveedor.value,
@@ -125,15 +135,15 @@ const showConfirmationModal = (e) => {
         body: JSON.stringify(formData)})   
         const newProduct = await createPost.json()
         formRef.current.reset()
-        setUploadedImage(null)
+      //  setUploadedImage(null)
         setIsLoading(false)
         setShowModal(false)
   }                
     
     //DELETE IMAGE FUNCTION
-    const deleteImage = () => {
-      setUploadedImage(null)
-    }
+    // const deleteImage = () => {
+    //   setUploadedImage(null)
+    // }
 
     //CALCULADOR PRECIO VENTA
     const calculadorPrecioVenta = () => {
@@ -150,15 +160,16 @@ const showConfirmationModal = (e) => {
     }
 
     // funcion para seleccionar visibilidad del producto en la tienda
-    const visibleEnTienda = () => {
-      if (isVisibleOnStore === "falso") {
-        setIsVisibleOnStore("verdadero")
-      } 
-      else setIsVisibleOnStore("falso")
-    }
+    // const visibleEnTienda = () => {
+    //   if (isVisibleOnStore === "falso") {
+    //     setIsVisibleOnStore("verdadero")
+    //   } 
+    //   else setIsVisibleOnStore("falso")
+    // }
 
     useEffect(() => {
       getProveedores();
+      getCategorías();
       fetchDolarBlueValue();
     }, [])
     
@@ -354,12 +365,12 @@ const showConfirmationModal = (e) => {
                   name='codigo' />
             </div>
             </div>
-            <div className='gap-1 m-2 border-b-2 border-gray-400 p-1 hidden'>
+            {/* <div className='gap-1 m-2 border-b-2 border-gray-400 p-1 hidden'>
               <span className='text-white select-none'>
                 Visible en Tienda:
               </span>
                 <input type="checkbox" className='p-1 w-4' name='visibleEnTienda' onClick={() => visibleEnTienda()}/>
-            </div>
+            </div> */}
             <div className='flex justify-center'> 
               <button 
               className='bg-red-600 rounded p-2 border-green-500 text-white my-1'
@@ -373,7 +384,6 @@ const showConfirmationModal = (e) => {
             <h2 className=' text-white text-semibold text-xl'>REQUIERE ESTAR LOGEADO PARA CREAR PRODUCTOS</h2>
             <Link to="/login" className='text-blue '>Iniciar Sesión</Link>
             </div></> }       
-        <div>HOLA</div>
     </div>
   )
 }
