@@ -4,6 +4,8 @@ import { useReactToPrint } from 'react-to-print';
 import TicketModal from '../components/TicketModal';
 import '../print.css';
 import { setProducts } from '../state/state';
+import { BsFillTrashFill} from 'react-icons/bs'
+
 
 const POSPage = () => {
   const products = useSelector(state => state.products) || [];
@@ -29,6 +31,7 @@ const POSPage = () => {
     } else {
       setProductosSeleccionados([...productosSeleccionados, { ...producto, quantity: 1 }]);
     }
+    console.log(productosSeleccionados);
   };
 
   const handleQuantityChange = (index, newQuantity) => {
@@ -63,16 +66,29 @@ const POSPage = () => {
         isEditable: true,
       },
     ]);
+    console.log(productosSeleccionados);
   };
 
+  // const handleOverwriteEmptyRow = (producto) => {
+  //   const index = productosSeleccionados.findIndex(item => item.isEditable);
+  //   if (index !== -1) {
+  //     const updatedItems = [...productosSeleccionados];
+  //     updatedItems[index] = { ...producto, quantity: 1 };
+  //     setProductosSeleccionados(updatedItems);
+  //   } else {
+  //     handleAgregarProducto(producto);
+  //   }
+  // };
   const handleOverwriteEmptyRow = (producto) => {
-    const index = productosSeleccionados.findIndex(item => item.isEditable);
+    const index = productosSeleccionados.findIndex(item => item.codigo === producto.codigo);
     if (index !== -1) {
+      // Actualiza el producto existente en la lista
       const updatedItems = [...productosSeleccionados];
-      updatedItems[index] = { ...producto, quantity: 1 };
+      updatedItems[index] = { ...producto, quantity: productosSeleccionados[index].quantity };
       setProductosSeleccionados(updatedItems);
     } else {
-      handleAgregarProducto(producto);
+      // Agrega el nuevo producto a la lista
+      setProductosSeleccionados([...productosSeleccionados, { ...producto, quantity: 1 }]);
     }
   };
 
@@ -173,7 +189,7 @@ const POSPage = () => {
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-gray-200 min-h-[400px]">
             {productosSeleccionados.map((item, index) => (
               <tr key={index}>
                 <td className="px-2 py-4 whitespace-nowrap">
@@ -222,7 +238,7 @@ const POSPage = () => {
                 <td className="px-2 py-4 whitespace-nowrap">{(item.quantity * item.precioVenta).toFixed(2)}</td>
                 <td className="px-2 py-4 whitespace-nowrap">
                   <button className="text-red-500" onClick={() => handleRemoveItem(index)}>
-                    Eliminar
+                    <BsFillTrashFill />
                   </button>
                 </td>
               </tr>
@@ -238,7 +254,7 @@ const POSPage = () => {
         >
           + Agregar fila
         </button>
-        <div className="font-bold text-lg">Total: ${total.toFixed(2)}</div>
+        <div className="font-bold text-lg">Total:{total.toFixed(2)}</div>
         <button
           className="ml-4 bg-green-700 hover:bg-green-500 text-white font-bold py-2 px-4 rounded"
           onClick={handleConfirmPurchase}
