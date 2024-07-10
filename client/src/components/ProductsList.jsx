@@ -107,14 +107,8 @@ const ProductsList = () => {
       }
   
       const result = await response.json();
-      console.log(result);
-  
-    //  Actualiza el estado si es necesario
-      // const updatedProducts = products.map(product => 
-      //   product._id === updatedProduct._id ? updatedProduct : product
-      // );
-      // dispatch(setProducts({ products: updatedProducts }));
-      
+      console.log(result); 
+
       setShowModal(false);
     } catch (error) {
       console.error("Error al actualizar el producto:", error);
