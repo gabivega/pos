@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import Spinner from './Spinner'
 import { useDispatch, useSelector } from 'react-redux'
 import { setProveedores } from '../state/state'
+import { useNavigate } from 'react-router-dom'
 
 const ProveedoresPanel = () => {
 
@@ -11,6 +12,9 @@ const ProveedoresPanel = () => {
   const proveedores = useSelector(state => state.proveedores)
   const eliminarProveedorRef = useRef(null)
   const [updatedProveedores, setUpdatedProveedores] = useState(proveedores)
+
+  const navigate = useNavigate()
+  const user = useSelector(state => state.user)
 
   const baseUrl = process.env.REACT_APP_BASEURL
 // OBTENER PROVEEDORES
@@ -58,7 +62,7 @@ const eliminarProveedor = async (e) => {
     getProveedores()
   }, [])
 
-  return (
+  return (<>{user?
     <div className='flex flex-col rounded bg-slate-300 p-4 gap-2 w-1/2'>
          {isLoading && <div className='w-full h-full bg-white/50 z-30 absolute'><Spinner /> </div>}
       <h3 className='text-blue font-semibold my-2 text-center'>PROVEEDORES</h3>
@@ -120,7 +124,7 @@ const eliminarProveedor = async (e) => {
           </div>}
         {savedOk && <span className='text-green-800 text-xl'>Categoría guardada correctamente!</span>}    */}
       </form>
-    </div>
+    </div>: navigate('/login')}</>
   )
 }
 

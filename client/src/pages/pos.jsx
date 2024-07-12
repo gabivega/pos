@@ -5,6 +5,7 @@ import TicketModal from '../components/TicketModal';
 import '../print.css';
 import { setProducts } from '../state/state';
 import { BsFillTrashFill} from 'react-icons/bs'
+import { useNavigate } from 'react-router-dom';
 
 
 const POSPage = () => {
@@ -16,6 +17,9 @@ const POSPage = () => {
   const [showModal, setShowModal] = useState(false);
 
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user)
+  const navigate= useNavigate()
+
   const printRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -137,7 +141,7 @@ const POSPage = () => {
     return <div>Loading...</div>;
   }
 
-  return (
+  return (<>{user?
     <div className="flex flex-col min-h-screen p-6">
       <h1 className="text-2xl font-bold mb-4">Punto de Venta (POS)</h1>
       <input
@@ -269,7 +273,7 @@ const POSPage = () => {
           onClose={() => setShowModal(false)}
         />
       )}
-    </div>
+    </div>: navigate('/login')}</>
   );
 };
 
