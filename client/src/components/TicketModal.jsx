@@ -11,7 +11,7 @@ const TicketModal = ({ productosSeleccionados, total, onClose }) => {
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center no-print">
       <div className="bg-white p-6 rounded shadow-lg w-11/12 max-w-sm">
-        <div ref={printRef} className="ticket-container print-only py-6 px-1">
+        <div ref={printRef} className="ticket-container print-only py-6 px-1 mb-4">
           <div className="ticket-header">
             <h2 className="text-md font-bold">FERRECENTRO RAFAELA</h2>
             <h3>Sarmiento 320 - Rafaela</h3>
@@ -42,6 +42,8 @@ const TicketModal = ({ productosSeleccionados, total, onClose }) => {
             Total: ${total.toFixed(2)}
           </div>
           <h4 className='text-center font-bold'>GRACIAS POR TU COMPRA!</h4>
+          <br />
+          <hr />
         </div>
         <div className="flex justify-end mt-4 no-print">
           <button
