@@ -6,6 +6,7 @@ import Spinner from "../components/Spinner";
 import { useDispatch } from 'react-redux';
 import { setProveedores } from '../state/state';
 import { setCategories } from '../state/state';
+import ExcelReader from "../components/excelReader";
 
 const NuevoProducto = () => {
   //const [uploadedImage, setUploadedImage] = useState(null)
@@ -31,7 +32,7 @@ const fetchDolarBlueValue = async () => {
   try {
     const response = await fetch('https://api.bluelytics.com.ar/v2/latest');
     const data = await response.json();
-    
+
     // Obtén el valor de venta del dólar blue
     const blueValueSell = data.blue.value_sell;
 
@@ -375,15 +376,18 @@ const showConfirmationModal = (e) => {
               <button 
               className='bg-red-600 rounded p-2 border-green-500 text-white my-1'
               onClick={showConfirmationModal}
-              >Guardar</button>             
+              >Guardar</button>                         
             </div>
+            <h4>Carga Masiva:</h4>
+            <ExcelReader />   
         </form> : 
           <>
           <div className='bg-slate-400 h-20 mx-auto flex flex-col justify-center 
           items-center mt-10 rounded p-5'>
             <h2 className=' text-white text-semibold text-xl'>REQUIERE ESTAR LOGEADO PARA CREAR PRODUCTOS</h2>
             <Link to="/login" className='text-blue '>Iniciar Sesión</Link>
-            </div></> }       
+            </div></> } 
+                 
     </div>
   )
 }

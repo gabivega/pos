@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table"
 import { useSelector } from 'react-redux'
-import { FaEdit } from "react-icons/fa"
+import { FaEdit, FaTrash } from "react-icons/fa"
 import Spinner from './Spinner'
 import { useDispatch } from 'react-redux'
 import { setProducts } from '../state/state'
@@ -41,8 +41,9 @@ const ProductsList = () => {
   const datosFiltrados = useMemo(() => {
     return products.filter(producto =>
       producto.codigo.toLowerCase().includes(filtro.toLowerCase()) ||
-      producto.titulo.toLowerCase().includes(filtro.toLowerCase()) ||
-      producto.marca.toLowerCase().includes(filtro.toLowerCase())
+      producto.titulo.toLowerCase().includes(filtro.toLowerCase())
+      // producto.titulo.toLowerCase().includes(filtro.toLowerCase()) ||
+  //    producto.marca.toLowerCase().includes(filtro.toLowerCase())
     )
   }, [filtro, products])
 
@@ -55,10 +56,11 @@ const ProductsList = () => {
     { header: "Proveedor", accessorKey: "proveedor" },
     { header: "Categoría", accessorKey: "categoria" },
     { header: "Stock", accessorKey: "stock" },
-    { header: "Editar", cell: (info) => (<FaEdit className='cursor-pointer' onClick={() => { editarProducto(info.row.original) }} />) }
+    { header: "Editar", cell: (info) => (<FaEdit className='cursor-pointer' onClick={() => { editarProducto(info.row.original) }} />) },
+    { header: "Eliminar", cell: (info) => (<FaTrash className='cursor-pointer' onClick={() => { eliminarProducto(info.row.original) }} />) }
   ]
 
-  const data = useMemo(() => datosFiltrados, [filtro])
+  const data = useMemo(() => datosFiltrados, [filtro, products])
   const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel() })
 
   const editarProducto = (row) => {
@@ -75,7 +77,22 @@ const ProductsList = () => {
     setProveedor(row.proveedor)
   }
 
+  const eliminarProducto = async (row) => {
+    setIsLoading(true)
+    const id = row._id
+    const res = await fetch(`${baseUrl}/deleteproduct`, {
+      method: 'DELETE',
+      headers: { "Content-Type": "application/json" },
+      body : JSON.stringify({id})
+    })
+    console.log(res);
+    await getProducts()
+    window.alert(`Producto ${row.titulo} Eliminado con exito!`)
+    setIsLoading(false)
+  }
+
   const handleSave = async () => {
+    setIsLoading(true)
     const updatedFields = {
       "id": editando._id,
       titulo,
@@ -84,7 +101,8 @@ const ProductsList = () => {
       precioVenta,
       descripcion,
       codigo,
-      proveedor
+      proveedor, 
+      stock
     };
   
     // Filtrar los campos que no se han modificado o que están vacíos
@@ -108,18 +126,22 @@ const ProductsList = () => {
   
       const result = await response.json();
       console.log(result); 
-
+      getProducts()
       setShowModal(false);
     } catch (error) {
       console.error("Error al actualizar el producto:", error);
     }
+    setIsLoading(false)
   };
 
   useEffect(() => {
+    console.log('Fetching products');
     getProducts()
   }, [])
 
   return (
+    <>
+    {isLoading? <Spinner /> :
     <div className='flex flex-col bg-slate-200 px-10 overflow-x-scroll justify-center items-center'>
       <h1 className='text-2xl text-bold'>LISTA DE PRODUCTOS</h1>
       <input
@@ -201,8 +223,8 @@ const ProductsList = () => {
             ))}
           </tbody>
         </table>
-      </div>
-    </div>
+      </div> 
+    </div>}</>
   )
 }
 

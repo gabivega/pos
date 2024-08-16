@@ -16,8 +16,10 @@
     "react-scripts": "5.0.1",
     "react-to-print": "^2.15.1",
     "redux": "^4.2.1",
+    "redux-persist": "^6.0.0",
     "tailwind-scrollbar-hide": "^1.1.7",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",

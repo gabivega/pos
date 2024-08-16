@@ -1,6 +1,7 @@
 import React, { useState,useRef, useEffect, } from 'react'
 import Spinner from './Spinner'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { setCategories } from '../state/state'
 
 const ActualizarPrecios = () => {
 
@@ -8,10 +9,11 @@ const ActualizarPrecios = () => {
   const proveedorRef = useRef(null)
   const variacionCategoriaRef = useRef(null)
   const variacionProveedorRef = useRef(null)
-  const categorias = useSelector(state => state.categories)
+  //const categorias = useSelector(state => state.categories)
   const [proveedores, setProveedores] = useState([])
+  const [categorias, setCategorias] = useState([])
   const [filtro, setFiltro] = useState("");
-
+  const dispatch= useDispatch()
   const baseUrl = process.env.REACT_APP_BASEURL
 
   const getProveedores = async () => {
@@ -21,6 +23,15 @@ const ActualizarPrecios = () => {
       const res = await req.json()
       setProveedores(res)   
     }
+    const getCategorías = async () => {
+      const req = await fetch(`${baseUrl}/obtenerCategorias`, {
+        method: "GET",
+        headers: {"content-type":"application/JSON"}})
+        const categorias = await req.json()
+       dispatch(setCategories({categorias}))
+       setCategorias(categorias)
+       console.log(categorias);   
+      }
 
   const actualizarPorCategoria = async (e) => {
     e.preventDefault();
@@ -52,6 +63,7 @@ const ActualizarPrecios = () => {
   }
   useEffect(() => {
    getProveedores()
+   getCategorías()
   }, [])
   
 

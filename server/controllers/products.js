@@ -11,11 +11,12 @@ try {
         precioCosto,
         precioCostoUsd, 
         margen, 
-        stock, 
-        imagen,
-        descripcion,
+        stock,
+        unidad, 
+        imagenUrl,
         proveedor,
-        codigo, visibleEnTienda} = req.body
+        codigo, 
+        codigoBarra} = req.body
         console.log(req.body);
     const newProduct = new Product({
         categoria, 
@@ -25,12 +26,12 @@ try {
         precioCosto,
         precioCostoUsd, 
         margen, 
-        stock, 
-        imagen,
-        descripcion,
+        stock,
+        unidad, 
+        imagenUrl,
         proveedor,
         codigo,
-        visibleEnTienda
+        codigoBarra
     })
     const savedProduct = await newProduct.save()
     console.log(savedProduct);
@@ -55,9 +56,11 @@ export const editProduct = async (req, res) => {
           precioCostoUsd, 
           margen, 
           stock,
-          descripcion,
+          unidad, 
+          imagenUrl,
           proveedor,
-          codigo} = req.body
+          codigo, 
+          codigoBarra} = req.body
           console.log(req.body);
           
       const editedProduct = await Product.findByIdAndUpdate(id,{
@@ -68,10 +71,11 @@ export const editProduct = async (req, res) => {
           precioCosto: precioCosto,
           precioCostoUsd: precioCostoUsd, 
           margen: margen, 
-          stock: stock, 
-          descripcion:descripcion,
+          stock: stock,
+          unidad: unidad,
           proveedor:proveedor,
           codigo:codigo,
+          codigoBarra:codigoBarra
       },
     {new: true})
       console.log("este es el producto",editedProduct);
@@ -162,3 +166,40 @@ export const actualizarPorProveedor = async (req,res) => {
     res.status(404).json({error: error.message})
   }
 }
+
+// ELIMINAR PRODUCTO
+export const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.body;
+    console.log("id", id);
+    await Product.findByIdAndDelete(id);
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+//CARGA MASIVA DE PRODUCTOS
+export const cargaMasiva = async (req, res) => {
+  try {
+    const { excelData } = req.body;
+    console.log(req.body);
+    // Crear una serie de operaciones de actualización/inserción
+    const operations = excelData.map((item) => {
+      return {
+        updateOne: {
+          filter: { codigo: item.codigo }, // Utilizar un campo único como el 'codigo' para buscar coincidencias
+          update: { $set: item },
+          upsert: true // Insertar el documento si no existe
+        }
+      };
+    });
+
+    // Ejecutar las operaciones en lote
+    await Product.bulkWrite(operations);
+
+    res.status(200).json({ message: "Datos guardados correctamente" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

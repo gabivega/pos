@@ -44,7 +44,7 @@ const Login = () => {
             token: loggedIn.token,
           }),
         );
-        navigate("/pos");
+        navigate("/");
       } else throw new Error(response.status);
     } catch (error) {
       if (error.message == 400) {

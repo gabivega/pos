@@ -81,16 +81,7 @@ const eliminarProveedor = async (e) => {
           <button 
           className='rounded text-white font-semibold p-2 bg-blue my-2 mx-auto'
           onClick={guardarProveedor}>Guardar</button>                
-        </div>      
-        {/* {isError && <div>
-          <span className='text-red-800 text-xl mr-2'>Error intente Nuevamente</span>
-          <button onClick={() => setIsError(false)} className="text-sm">cerrar</button>
-          </div>}
-        {isDuplicatedCategory && <div>
-          <span className='text-red-800 text-xl mr-2'>Error Categoria ya existente</span>
-          <button onClick={() => setIsDuplicatedCategory(false)} className="text-sm">cerrar</button>
-          </div>}
-        {savedOk && <span className='text-green-800 text-xl'>Categoría guardada correctamente!</span>}    */}
+        </div>  
       </form>
       {/* ELIMINAR PROVEEDOR */}
       <form 
@@ -114,15 +105,6 @@ const eliminarProveedor = async (e) => {
           className='rounded text-white font-semibold p-2 bg-red-500 my-2 mx-auto'
           onClick={eliminarProveedor}>Eliminar</button>                
         </div>      
-        {/* {isError && <div>
-          <span className='text-red-800 text-xl mr-2'>Error intente Nuevamente</span>
-          <button onClick={() => setIsError(false)} className="text-sm">cerrar</button>
-          </div>}
-        {isDuplicatedCategory && <div>
-          <span className='text-red-800 text-xl mr-2'>Error Categoria ya existente</span>
-          <button onClick={() => setIsDuplicatedCategory(false)} className="text-sm">cerrar</button>
-          </div>}
-        {savedOk && <span className='text-green-800 text-xl'>Categoría guardada correctamente!</span>}    */}
       </form>
     </div>: navigate('/login')}</>
   )

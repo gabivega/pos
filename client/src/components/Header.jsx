@@ -21,7 +21,7 @@ const Header = () => {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const cart = useSelector((state) => state.cart);
+ // const cart = useSelector((state) => state.cart);
   // const cartItems = useSelector((state) => state.cart)
   // const cartLength = cartItems.cartLength
 

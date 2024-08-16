@@ -7,6 +7,8 @@ import editUserRoutes from "./routes/user.js"
 import productsRoutes from "./routes/products.js"
 import categoriesRoutes from "./routes/categories.js"
 import proveedoresRoutes from "./routes/proveedores.js"
+import posRoutes from "./routes/pos.js"
+import clientesRoutes from "./routes/clientes.js"
 import path from 'path';
 
 
@@ -16,13 +18,12 @@ app.use(express.json())
 app.use(
     cors({
       origin: "*",
-      methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS"],
+      methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS", "PUT"],
     }),
   );
 const PORT = process.env.PORT
 app.listen(PORT, () => console.log(`servidor funcionando en puerto ${PORT}`));
 const router = express.Router()
-
 
 //MONGODB CONNECTION
 const mongoDb = process.env.MONGODB_URL
@@ -34,6 +35,23 @@ mongoose.connect(mongoDb, {
     console.log("connected to DB");
 }).catch((err)=> console.log(err))
 
+//OBTENER VALOR DOLAR BLUE
+const fetchDolarBlueValue = async () => {
+  try {
+    const response = await fetch('https://api.bluelytics.com.ar/v2/latest');
+    const data = await response.json();
+
+    // Obtén el valor de venta del dólar blue
+    return data.blue.value_sell;
+  } catch (error) {
+    console.error('Error al obtener el valor del dólar blue', error);
+  }
+};
+
+fetchDolarBlueValue().then((value) => {
+  console.log(value);
+})
+
 // app.get("/", (req, res) => {    
 //     res.send(`hola putoooo estamos en port ${PORT}`)  
 // })
@@ -43,6 +61,8 @@ app.use(editUserRoutes)
 app.use(productsRoutes)
 app.use(categoriesRoutes)
 app.use(proveedoresRoutes)
+app.use(posRoutes)
+app.use(clientesRoutes)
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, 'public')));

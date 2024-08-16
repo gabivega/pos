@@ -6,6 +6,7 @@ import '../print.css';
 import { setProducts } from '../state/state';
 import { BsFillTrashFill} from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom';
+import Spinner from '../components/Spinner';
 
 
 const POSPage = () => {
@@ -15,28 +16,14 @@ const POSPage = () => {
   const [productosSeleccionados, setProductosSeleccionados] = useState([]);
   const [total, setTotal] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const inputRef = useRef(null)
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.user)
   const navigate= useNavigate()
 
   const printRef = useRef();
-
-  const handlePrint = useReactToPrint({
-    content: () => printRef.current,
-  });
-
   const baseUrl = process.env.REACT_APP_BASEURL
-
-  const handleAgregarProducto = (producto) => {
-    const productoExistente = productosSeleccionados.find(item => item.codigo === producto.codigo);
-    if (productoExistente) {
-      return;
-    } else {
-      setProductosSeleccionados([...productosSeleccionados, { ...producto, quantity: 1 }]);
-    }
-    console.log(productosSeleccionados);
-  };
 
   const handleQuantityChange = (index, newQuantity) => {
     const updatedItems = productosSeleccionados.map((item, i) =>
@@ -73,16 +60,6 @@ const POSPage = () => {
     console.log(productosSeleccionados);
   };
 
-  // const handleOverwriteEmptyRow = (producto) => {
-  //   const index = productosSeleccionados.findIndex(item => item.isEditable);
-  //   if (index !== -1) {
-  //     const updatedItems = [...productosSeleccionados];
-  //     updatedItems[index] = { ...producto, quantity: 1 };
-  //     setProductosSeleccionados(updatedItems);
-  //   } else {
-  //     handleAgregarProducto(producto);
-  //   }
-  // };
   const handleOverwriteEmptyRow = (producto) => {
     const index = productosSeleccionados.findIndex(item => item.codigo === producto.codigo);
     if (index !== -1) {
@@ -94,6 +71,8 @@ const POSPage = () => {
       // Agrega el nuevo producto a la lista
       setProductosSeleccionados([...productosSeleccionados, { ...producto, quantity: 1 }]);
     }
+    setFiltro('');
+    inputRef.current.focus()
   };
 
   const calculateTotal = () => {
@@ -104,8 +83,19 @@ const POSPage = () => {
     setTotal(newTotal);
   };
 
-  const handleConfirmPurchase = () => {
-    setShowModal(true);
+  const handleConfirmPurchase = async () => {
+  try {
+    const response = await fetch(`${baseUrl}/guardarcomprobante`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ products: productosSeleccionados, total: total.toFixed(2) }),
+    });
+    const data = await response.json();
+    console.log(data);
+  
+  } catch (error) {
+  
+}    setShowModal(true);
   };
 
   const getProducts = async () => {
@@ -132,13 +122,13 @@ const POSPage = () => {
     return products.filter(
       producto =>
         producto.codigo.toLowerCase().includes(filtro.toLowerCase()) ||
-        producto.titulo.toLowerCase().includes(filtro.toLowerCase()) ||
-        producto.marca.toLowerCase().includes(filtro.toLowerCase())
+        producto.titulo.toLowerCase().includes(filtro.toLowerCase())
+     //   producto.marca.toLowerCase().includes(filtro.toLowerCase())
     );
   }, [filtro, products]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 
   return (<>{user?
@@ -150,10 +140,11 @@ const POSPage = () => {
         onChange={e => setFiltro(e.target.value)}
         placeholder="Buscar por código, título o marca"
         className="mb-6"
+        ref={inputRef}
       />
 
       {filtro.length >= 3 && productoFiltrado.length > 0 && (
-        <div className="border rounded p-4">
+        <div className="border rounded p-4 max-h-[250px] overflow-auto">
           <h2 className="text-lg font-bold mb-2">Productos encontrados:</h2>
           <ul className="list-disc pl-8">
             {productoFiltrado.map(producto => (
@@ -222,13 +213,21 @@ const POSPage = () => {
                   />
                 </td>
                 <td className="px-2 py-4 whitespace-nowrap">
-                  <div>{item.precioCosto}</div>
-                    {/* type="number"
-                    step="0.01"
-                    className="w-24 p-1 border rounded"
-                    value={item.precioCosto}
-                    onChange={(e) => handlePriceChange(index, e.target.value)}
-                  /> */}
+                  {item.isEditable ? (
+                    <input
+                      type="number"
+                      step="0.01"
+                      className="w-24 p-1 border rounded"
+                      value={item.precioCosto}
+                      onChange={(e) => {
+                        const updatedItems = [...productosSeleccionados];
+                        updatedItems[index].precioCosto = e.target.value;
+                        setProductosSeleccionados(updatedItems);
+                      }}
+                    />
+                  ) : (
+                    item.precioCosto
+                  )}                 
                 </td>
                 <td className="px-2 py-4 whitespace-nowrap">
                   <input
