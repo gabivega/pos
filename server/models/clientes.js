@@ -11,13 +11,9 @@ const clientesSchema = new mongoose.Schema ({
     unique : [true, "Email ya existente"],
     required: true
   },
-  telefono :{
-    type: String,
-    unique : [true, "Email ya existente"],
-    required: true  
-},
+telefono : String,
 direccion :String,
-CUIT: String,
+CUIT: {type: String, unique: [true, "CUIT ya registrado"]},
 IVA: String,
 comprobantes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comprobante' }]})
 

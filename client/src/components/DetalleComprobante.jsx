@@ -1,13 +1,15 @@
 import React from 'react'
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import Spinner from './Spinner';
 
 const DetalleComprobante = ({selectedComprobanteToggle, comprobante}) => {
   const baseUrl = process.env.REACT_APP_BASEURL;
   // console.log(comprobante);
   const clients= useSelector((state) => state.clientes);
   const [cliente, setCliente] = useState(null);
-  const [estadoComprobante, setEstadoComprobante] =(useState(comprobante.estado))
+  const [estadoComprobante, setEstadoComprobante] =(useState(comprobante.estado));
+  const [isLoading, setIsLoading] = useState(false)
 
   //FORMATEAR FECHA
   const fechaFormateada = (fecha) =>{
@@ -21,9 +23,10 @@ const DetalleComprobante = ({selectedComprobanteToggle, comprobante}) => {
 
   //asignar comprobante a un cliente
   const asignarComprobante = async (cliente, comprobante, estado) => {
+    setIsLoading(true)
     console.log(cliente, comprobante);
     
-    const res = await fetch(`${baseUrl}/asignarComprobante`, 
+    const res = await fetch(`${baseUrl}/estadocomprobante`, 
       {method: "PATCH",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({cliente, comprobante, estado})
@@ -31,14 +34,22 @@ const DetalleComprobante = ({selectedComprobanteToggle, comprobante}) => {
     )
     const data = await res.json()
     console.log(data)
+    setIsLoading(false)
+    if (res.status === 200) {
+      window.alert("Comprobante actualizado con exito")      
+    }
+    else {
+      window.alert("No se pudo actualizar el comprobante")
+    }
     selectedComprobanteToggle()
   }
   const handleEstadoComprobanteChange = (estado) => {
     setEstadoComprobante(estado);
   }
   
-  return (
+  return (    
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+      {isLoading && <Spinner/>}
       <div className="bg-white rounded-lg p-6 shadow-lg border border-gray-300 relative">
        <div className="p-4 border-black border-[1px] flex flex-col">
       <div>
@@ -88,7 +99,7 @@ const DetalleComprobante = ({selectedComprobanteToggle, comprobante}) => {
     </div>
   </div>
 </div>
-  )
+)
 }
 
 export default DetalleComprobante

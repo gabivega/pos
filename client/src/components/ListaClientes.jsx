@@ -4,6 +4,7 @@ import EliminarCliente from './eliminarCliente';
 import Spinner from './Spinner';
 import { useDispatch } from 'react-redux';
 import { setClients } from '../state/state';
+import EditarCliente from './editarCliente';
 
 const ListaClientes = ({openModalEditar, openModalEliminar, clientesCounter}) => {
   const [clientes, setClientes] = useState([]);
@@ -14,6 +15,7 @@ const ListaClientes = ({openModalEditar, openModalEliminar, clientesCounter}) =>
   const [showEliminarCliente, setShowEliminarCliente] = useState(false);
   const [removeClienteId, setRemoveClienteId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [editandoCliente, setEditandoCliente] = useState(false)
 
   const baseUrl = process.env.REACT_APP_BASEURL;
 
@@ -102,6 +104,12 @@ const ListaClientes = ({openModalEditar, openModalEliminar, clientesCounter}) =>
   const closeModalEliminar = () => {
     setShowEliminarCliente(false);
   }
+
+  const toggleModalEditar = (cliente) =>{
+    setSelectedCliente(cliente)
+    setEditandoCliente(!editandoCliente);
+  }
+
   return (<>{isLoading ? <Spinner /> :
     <div>
       <h1>Clientes</h1>
@@ -112,19 +120,18 @@ const ListaClientes = ({openModalEditar, openModalEliminar, clientesCounter}) =>
             <th className="py-2 px-4 border-b">Email</th>
             <th className="py-2 px-4 border-b">Teléfono</th>
             <th className="py-2 px-4 border-b">Dirección</th>
-            <th className="py-2 px-4 border-b">Eliminar</th>
-            <th className="py-2 px-4 border-b">Editar</th>
+            <th className="py-2 px-4 border-b">Eliminar</th>          
           </tr>
         </thead>
         <tbody>
           {clientes.map((cliente) => (
-            <tr key={cliente._id} className="hover:bg-gray-100">
+            <tr key={cliente._id} className="hover:bg-gray-100 cursor-pointer" onClick={()=> toggleModalEditar(cliente)}>
               <td className="py-2 px-4 border-b">{cliente.nombre}</td>
               <td className="py-2 px-4 border-b">{cliente.email}</td>
               <td className="py-2 px-4 border-b">{cliente.telefono}</td>
               <td className="py-2 px-4 border-b">{cliente.direccion}</td>
-              <td className="py-2 px-4 border-b"><FaTrash onClick={() => openModalRemove(cliente._id)} /></td>
-              <td className="py-2 px-4 border-b"><FaEdit onClick={() => openModalEditar()} /></td>
+              <td className="py-2 px-4 border-b z-10"><FaTrash onClick={(e) =>{e.stopPropagation(); openModalRemove(cliente._id)}} /></td>
+              {/* <td className="py-2 px-4 border-b"><FaEdit onClick={() => openModalEditar()} /></td> */}
             </tr>
           ))}
         </tbody>
@@ -154,6 +161,7 @@ const ListaClientes = ({openModalEditar, openModalEliminar, clientesCounter}) =>
       )}
       {showEliminarCliente && 
         <EliminarCliente removeClient={removeClient} closeModalEliminar={closeModalEliminar} removeClienteId={removeClienteId}/>}
+        {editandoCliente && <EditarCliente cliente={selectedCliente} toggleModalEditar={toggleModalEditar}/>}
     </div>
   }</>
   );

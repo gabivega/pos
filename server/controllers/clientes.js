@@ -47,7 +47,7 @@ export const removeClientes = async (req, res) => {
   }
 }
 
-export const editCliente = async (req,res) => {
+export const estadoComprobante = async (req,res) => {
 
     const {comprobante, cliente, estado} = req.body
     console.log(req.body);
@@ -56,11 +56,21 @@ export const editCliente = async (req,res) => {
     console.log("estado", estado)
     try { 
       if (cliente) {
-      const clienteActualizado = await Clientes.findByIdAndUpdate(cliente, {$push:{comprobantes:comprobante}, estado:estado},
-      {new: true})}
-      const actualizarComprobante = await Comprobantes.findByIdAndUpdate(comprobante, {estado:estado}, {new:true})
-      res.status(200).json({message:"Estado de comprobante actualizado",
-        comprobante:actualizarComprobante})
+      // chequear si el cliente posee ese comprobante:
+        const chequeoComprobante = await Clientes.findById(cliente)
+        const existeComprobante = chequeoComprobante.comprobantes.includes(comprobante)
+        console.log(existeComprobante);
+        if (!existeComprobante) {
+          const clienteActualizado = await Clientes.findByIdAndUpdate(cliente, {$push:{comprobantes:comprobante}, estado:estado},
+            {new: true})
+            console.log("clienteActualizado", clienteActualizado, "comprobante", comprobante);}
+        else {console.log(`El Cliente ${cliente} cliente ya posee este comprobante`);}
+        }          
+          //Actualizar Estado
+            const actualizarComprobante = await Comprobantes.findByIdAndUpdate(comprobante, {estado:estado}, {new:true})
+            res.status(200).json({message:"Estado de comprobante actualizado",
+            comprobante:actualizarComprobante})
+          
       }
   catch (error) {
     res.status(500).json({error:error.message})
