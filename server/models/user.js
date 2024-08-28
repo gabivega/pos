@@ -26,10 +26,10 @@ const userSchema = new mongoose.Schema ({
     direccion: {
         type:String,
         default: ""},
-    ranngo: {
-        type: String,
-        default: "Comprador"
-    }   
+    // rango: {
+    //     type: String,
+    //     default: "Comprador"
+    // }   
 },
 {timestamps: true })
 

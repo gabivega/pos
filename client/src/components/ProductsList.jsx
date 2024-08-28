@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react'
-import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table"
+import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel } from "@tanstack/react-table"
 import { useSelector } from 'react-redux'
 import { FaEdit, FaTrash } from "react-icons/fa"
 import Spinner from './Spinner'
@@ -26,6 +26,10 @@ const ProductsList = () => {
   const [addingProduct, setAddingProduct] = useState(null)
   const [quantity, setQuantity] = useState(1)
   const [salePrice, setSalePrice] = useState('')
+  const [pagination, setPagination] = useState({
+    pageIndex: 0, //initial page index
+    pageSize: 100, //default page size
+  });
 
   const baseUrl = process.env.REACT_APP_BASEURL
 
@@ -42,8 +46,6 @@ const ProductsList = () => {
     return products.filter(producto =>
       producto.codigo.toLowerCase().includes(filtro.toLowerCase()) ||
       producto.titulo.toLowerCase().includes(filtro.toLowerCase())
-      // producto.titulo.toLowerCase().includes(filtro.toLowerCase()) ||
-  //    producto.marca.toLowerCase().includes(filtro.toLowerCase())
     )
   }, [filtro, products])
 
@@ -61,7 +63,12 @@ const ProductsList = () => {
   ]
 
   const data = useMemo(() => datosFiltrados, [filtro, products])
-  const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel() })
+  const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel(), getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination, //update the pagination state when internal APIs mutate the pagination state
+    state: {
+      //...
+      pagination,
+    } })
 
   const editarProducto = (row) => {
     setShowModal(true)
@@ -220,9 +227,47 @@ const ProductsList = () => {
                   </td>
                 ))}
               </tr>
-            ))}
-          </tbody>
+            ))}          
+          </tbody>          
         </table>
+        <div className='flex justify-center p-4 w-full gap-2'> 
+              <button className='bg-slate-600 rounded-sm py-2 px-2 text-white font-bold cursor-pointer text-xs'
+                  onClick={() => table.firstPage()}
+                  disabled={!table.getCanPreviousPage()}
+                >
+                  {'<<'}
+                </button>
+                <button className='bg-slate-600 rounded-sm py-2 px-2 text-white font-bold cursor-pointer text-xs'
+                  onClick={() => table.previousPage()}
+                  disabled={!table.getCanPreviousPage()}
+                >
+                  {'<'}
+                </button>
+                <button className='bg-slate-600 rounded-sm py-2 px-2 text-white font-bold cursor-pointer text-xs'
+                  onClick={() => table.nextPage()}
+                  disabled={!table.getCanNextPage()}
+                >
+                  {'>'}
+                </button>
+                <button className='bg-slate-600 rounded-sm py-2 px-2 text-white font-bold cursor-pointer text-xs'
+                  onClick={() => table.lastPage()}
+                  disabled={!table.getCanNextPage()}
+                >
+                  {'>>'}
+                </button>
+                <select
+                  value={table.getState().pagination.pageSize}
+                  onChange={e => {
+                    table.setPageSize(Number(e.target.value))
+                  }}
+                >
+                  {[100, 200, 300, 400, ].map(pageSize => (
+                    <option key={pageSize} value={pageSize}>
+                      {pageSize}
+                    </option>
+                  ))}
+                </select> 
+              </div>
       </div> 
     </div>}</>
   )

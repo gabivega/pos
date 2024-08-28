@@ -11,10 +11,13 @@ import posRoutes from "./routes/pos.js"
 import clientesRoutes from "./routes/clientes.js"
 import path from 'path';
 
-
 const app = express()
 dotenv.config()
-app.use(express.json())
+app.use(express.json({ limit: '50mb' }))
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+
+
 app.use(
     cors({
       origin: "*",
@@ -52,10 +55,6 @@ fetchDolarBlueValue().then((value) => {
   console.log(value);
 })
 
-// app.get("/", (req, res) => {    
-//     res.send(`hola putoooo estamos en port ${PORT}`)  
-// })
-
 app.use(loginRoutes)
 app.use(editUserRoutes)
 app.use(productsRoutes)
@@ -72,6 +71,3 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
 
-// app.listen(PORT, () => {
-//   console.log(`Server is running on http://localhost:${PORT}`);
-// });
