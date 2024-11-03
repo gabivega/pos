@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const EditarCliente = ({ toggleModalEditar, cliente }) => {
-  const [nombre, setNombre] = useState('');
-  const [email, setEmail] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [direccion, setDireccion] = useState('');
+  const [nombre, setNombre] = useState("");
+  const [email, setEmail] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [direccion, setDireccion] = useState("");
 
   const baseUrl = process.env.REACT_APP_BASEURL;
 
   // Inicializar los estados con los valores del cliente cuando el componente se monta o cuando el cliente cambia
   useEffect(() => {
     if (cliente) {
-      setNombre(cliente.nombre || '');
-      setEmail(cliente.email || '');
-      setTelefono(cliente.telefono || '');
-      setDireccion(cliente.direccion || '');
+      setNombre(cliente.nombre || "");
+      setEmail(cliente.email || "");
+      setTelefono(cliente.telefono || "");
+      setDireccion(cliente.direccion || "");
     }
   }, [cliente]);
 
@@ -29,9 +29,9 @@ const EditarCliente = ({ toggleModalEditar, cliente }) => {
     };
 
     const res = await fetch(`${baseUrl}/clientes/${cliente._id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedCliente),
     });
@@ -39,7 +39,7 @@ const EditarCliente = ({ toggleModalEditar, cliente }) => {
     const data = await res.json();
     // Actualiza la lista de clientes si es necesario
     // setClientes(prevClientes => prevClientes.map(c => c._id === cliente._id ? data : c));
-    
+
     toggleModalEditar(); // Cerrar el modal después de editar
   };
 
@@ -90,11 +90,17 @@ const EditarCliente = ({ toggleModalEditar, cliente }) => {
                 required
               />
             </div>
-            <button type="submit" className="bg-blue-500 text-black font-bold p-2 rounded">
+            <button
+              type="submit"
+              className="bg-blue-500 text-black font-bold p-2 rounded"
+            >
               Guardar Cambios
             </button>
           </form>
-          <button onClick={toggleModalEditar} className="bg-red-500 text-black font-bold p-2 rounded">
+          <button
+            onClick={toggleModalEditar}
+            className="bg-red-500 text-black font-bold p-2 rounded"
+          >
             Cancelar
           </button>
         </div>

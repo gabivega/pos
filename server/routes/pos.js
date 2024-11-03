@@ -1,5 +1,5 @@
 import express from "express"
-import {cargarComprobantes, guardarComprobante } from "../controllers/pos.js"
+import { cargarComprobantes, guardarComprobante } from "../controllers/pos.js"
 
 const router = express.Router()
 

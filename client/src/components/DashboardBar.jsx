@@ -100,6 +100,18 @@ const DashboardBar = () => {
                 </div>
                 </Link>
             </div>
+            <div class="w-full flex items-center gap-x-1.5 group select-none">
+                <div class="w-1 rounded-xl h-8 bg-transparent transition-colors duration-200 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-[102%] translate-y-full group-hover:translate-y-0 bg-red-600 transition-all duration-300"></div>
+                </div>
+                <Link to="/listadogeneral">
+                <div class="group-hover:bg-white/10 w-full group-active:scale-95 self-stretch pl-2 rounded flex items-center space-x-2 transition-all duration-200 dark:group-hover:text-white dark:hover:text-white text-sm" href="#">
+                    <svg class="h-5 w-5 group-hover:fill-red-600 dark:fill-gray-600  transition-colors duration-200" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    </svg>    
+                    <span class="font-QuicksandMedium">Listado General</span>
+                </div>
+                </Link>
+            </div>
         </div>    
     </aside>
   )

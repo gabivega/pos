@@ -1,5 +1,5 @@
 import ListaClientes from "../components/ListaClientes";
-import React from 'react'
+import React from "react";
 import NuevoCliente from "../components/NuevoCliente";
 import { useState } from "react";
 import EditarCliente from "../components/editarCliente";
@@ -15,40 +15,44 @@ const Clientes = () => {
     setShowAddClientes(true);
     setButtonText("Cancelar");
   };
+  const openModalEditar = () => {
+    console.log("openmodaleditar");
+  };
+  const openModalEliminar = () => {
+    console.log("openmodaleliminar");
+  };
 
   const closeModal = () => {
     setShowAddClientes(false);
     setButtonText("Crear Nuevo Cliente");
   };
-
-  const openModalEditar = () => {
-    setShowEditarCliente(true);
-  };
   const closeModalEditar = () => {
-    setShowEditarCliente(false);
+    console.log("closemodaleditar");
   };
-  
-  const openModalEliminar = () => {
-    setShowEliminarCliente(true);
-  };
-
-
 
   return (
     <div>
-      <ListaClientes openModalEditar={openModalEditar} openModalEliminar={openModalEliminar} clientesCounter={clientesCounter}/>
-      <button onClick={showAddClientes ? closeModal : openModal}>{buttonText}</button>
-      {showAddClientes && 
+      <ListaClientes
+        openModalEditar={openModalEditar}
+        openModalEliminar={openModalEliminar}
+        clientesCounter={clientesCounter}
+      />
+      <button onClick={showAddClientes ? closeModal : openModal}>
+        {buttonText}
+      </button>
+      {showAddClientes && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
           <div className="bg-white rounded-lg p-6 shadow-lg border border-gray-300 relative">
-            <NuevoCliente closeModal={closeModal} setClientesCounter={setClientesCounter}/>
+            <NuevoCliente
+              closeModal={closeModal}
+              setClientesCounter={setClientesCounter}
+            />
           </div>
         </div>
-      }
-      {showEditarCliente && 
-      <EditarCliente closeModal={closeModalEditar} />}
+      )}
+      {showEditarCliente && <EditarCliente closeModal={closeModalEditar} />}
     </div>
   );
-}
+};
 
 export default Clientes;
