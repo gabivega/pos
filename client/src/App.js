@@ -29,6 +29,7 @@ function App() {
       <main className="flex-grow">
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Dashboard />}>
             <Route index element={<POSPage />} />
             <Route path="nuevoproducto" element={<NuevoProducto />} />
@@ -42,7 +43,6 @@ function App() {
             <Route path="comprobantes" element={<Comprobantes />} />
             <Route path="/categorias" element={<Categorias />} />
             <Route path="/carrito" element={<Carrito />} />
-            <Route path="/signup" element={<Signup />} />
             <Route path="/ofertas" element={<Ofertas />} />
             <Route path="/ayuda" element={<Ayuda />} />
             <Route path="/contacto" element={<Contacto />} />

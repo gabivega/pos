@@ -19,24 +19,24 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 
 app.use(
-    cors({
-      origin: "*",
-      methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS", "PUT"],
-    }),
-  );
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS", "PUT"],
+  }),
+);
 const PORT = process.env.PORT
-app.listen(PORT, () => console.log(`servidor funcionando en puerto ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`servidor funcionando en puerto ${PORT}`));
 const router = express.Router()
 
 //MONGODB CONNECTION
 const mongoDb = process.env.MONGODB_URL
 mongoose.set("strictQuery", false)
 mongoose.connect(mongoDb, {
-    useNewUrlParser: true,
+  useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {
-    console.log("connected to DB");
-}).catch((err)=> console.log(err))
+  console.log("connected to DB");
+}).catch((err) => console.log(err))
 
 //OBTENER VALOR DOLAR BLUE
 const fetchDolarBlueValue = async () => {
