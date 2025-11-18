@@ -20,7 +20,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(
   cors({
-    origin: "https://pos-front.onrender.com/",
+    origin: "https://pos-front.onrender.com",
     methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS", "PUT"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
