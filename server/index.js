@@ -22,7 +22,8 @@ app.use(
   cors({
     origin: "https://pos-front.onrender.com/",
     methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS", "PUT"],
-    credentials: true
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
 const PORT = process.env.PORT
