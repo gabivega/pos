@@ -18,7 +18,7 @@ const Login = () => {
     setIsWrongCredentials(false);
   };
 
-  const baseUrl = process.env.REACT_APP_BASEURL
+  const baseUrl = process.env.REACT_APP_BASEURL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +34,7 @@ const Login = () => {
         headers: {
           "content-type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(loginData),
       });
       const loggedIn = await response.json();
