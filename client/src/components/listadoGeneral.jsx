@@ -1,147 +1,160 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useCallback } from "react";
 import Spinner from "./Spinner";
+import { Virtuoso } from "react-virtuoso"; // Debes instalarla: npm install react-virtuoso
 
 const ListadoGeneral = () => {
-  const [productos, setProductos] = useState([]);
-  const [productosIniciales, setProductosIniciales] = useState([]);
+  const [productosBase, setProductosBase] = useState([]); // Fuente de verdad única
   const [isLoading, setIsLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [proveedorSeleccionado, setProveedorSeleccionado] = useState(null);
 
   const baseUrl = process.env.REACT_APP_BASEURL;
 
+  // 1. Carga inicial: Solo una vez
   const getListadoGeneral = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${baseUrl}/listadoGeneral`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await fetch(`${baseUrl}/listadoGeneral`);
       const listado = await response.json();
-      setProductos(listado);
-      setProductosIniciales(listado);
-      // console.log(filtrarProveedores(listado));
-
-      return listado;
+      setProductosBase(listado);
     } catch (error) {
-      console.log(error);
+      console.error("Error cargando productos:", error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const filtrarProveedores = (listado) => {
-    const proveedores = new Set();
-    listado.forEach((producto) => {
-      if (producto.proveedor) {
-        proveedores.add(producto.proveedor);
-      }
-    });
-    // Convierte el Set a un array
-    return Array.from(proveedores);
-  };
-
-  // funcion filtrar
-  let productosFiltrados = [];
-
-  const filtroPorProveedor = (proveedor) => {
-    setIsLoading(true);
-    productos.forEach((producto) => {
-      if (producto.proveedor === proveedor) {
-        productosFiltrados.push(producto);
-      }
-    });
-    setProductos(productosFiltrados);
-    setIsLoading(false);
-  };
-  //funcion limpiar filtro
-  const limpiarFiltro = () => {
-    setIsLoading(true);
-    setProductos(productosIniciales);
-    productosFiltrados = [];
-    setIsLoading(false);
-  };
-
-  //funcion añadir a inventario
-  const addToInventory = async (product) => {
-    // console.log(product);
   };
 
   useEffect(() => {
     getListadoGeneral();
   }, []);
 
+  // 2. Extraer proveedores (Memoizado para que no se recalcule si no cambian los productos)
+  const listaProveedores = useMemo(() => {
+    const set = new Set(productosBase.map(p => p.proveedor).filter(Boolean));
+    return Array.from(set).sort();
+  }, [productosBase]);
+
+  // 3. LÓGICA DE FILTRADO COMBINADA (La clave de la performance)
+  const productosFiltrados = useMemo(() => {
+    let resultado = productosBase;
+
+    // Filtro por proveedor
+    if (proveedorSeleccionado) {
+      resultado = resultado.filter(p => p.proveedor === proveedorSeleccionado);
+    }
+
+    // Filtro por texto
+    if (searchTerm.trim() !== "") {
+      const term = searchTerm.toLowerCase();
+      resultado = resultado.filter(p => 
+        p.titulo?.toLowerCase().includes(term) ||
+        p.codigo?.toLowerCase().includes(term) ||
+        p.proveedor?.toLowerCase().includes(term)
+      );
+    }
+
+    return resultado;
+  }, [productosBase, searchTerm, proveedorSeleccionado]);
+
+
+  const addToInventory = async (product) => {
+    try {
+      setIsLoading(true);
+      console.log("Añadiendo:", product);
+      await fetch(`${baseUrl}/newProduct`, {
+        method : "POST",
+        headers: {"content-type":"application/JSON"},
+        body: JSON.stringify(product)})   
+    } catch (error) {
+      console.log("error: ", error.message)
+    }
+    
+    finally {
+
+      setIsLoading(false)
+    }
+  };
+
   return (
-    <div className="flex flex-col bg-slate-200 px-10 overflow-x-scroll justify-start items-center p-4 w-full">
-      <div>
-        <h1 className="text-2xl text-bold">LISTA DE PRODUCTOS</h1>
-        <input
-          type="text"
-          placeholder="Buscar por código, título o marca"
-          className="my-4 w-[40%]"
-        />
-      </div>
-      <div>
-        <h1>Filtrar Por Proveedor:</h1>
-        <div className="flex gap-4">
-          {filtrarProveedores &&
-            filtrarProveedores(productos).map((proveedor) => (
+    <div className="flex flex-col bg-slate-200 h-screen w-full overflow-hidden">
+      {/* Header y Filtros */}
+      <div className="p-6 bg-white shadow-sm">
+        <h1 className="text-2xl font-bold mb-4">LISTA DE PRODUCTOS ({productosFiltrados.length})</h1>
+        
+        <div className="flex flex-wrap gap-4 items-end">
+          <div className="flex flex-col w-full md:w-1/3">
+            <label className="text-sm font-semibold text-gray-600">Buscador global:</label>
+            <input
+              type="text"
+              placeholder="Buscar por código, título o marca..."
+              className="p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-400 outline-none"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {listaProveedores.map((prov) => (
               <button
-                className="bg-blue p-2 text-white text-bold rounded-md"
-                onClick={() => filtroPorProveedor(proveedor)}
+                key={prov}
+                onClick={() => setProveedorSeleccionado(prov)}
+                className={`px-3 py-1 rounded-full text-sm transition-colors ${
+                  proveedorSeleccionado === prov 
+                  ? "bg-blue text-white" 
+                  : "bg-gray-300 hover:bg-gray-400 text-gray-800"
+                }`}
               >
-                {proveedor}
+                {prov}
               </button>
             ))}
-
-          <button
-            class="bg-red-800 p-2 text-white text-bold rounded-md"
-            onClick={() => limpiarFiltro()}
-          >
-            Limpiar Filtro
-          </button>
+            {(proveedorSeleccionado || searchTerm) && (
+              <button
+                onClick={() => { setProveedorSeleccionado(null); setSearchTerm(""); }}
+                className="bg-red-700 px-3 py-1 text-white rounded-full text-sm"
+              >
+                Limpiar Filtros
+              </button>
+            )}
+          </div>
         </div>
       </div>
-      {isLoading && <Spinner />}
-      <table className="table-fixed border-separate border-spacing-2 border border-slate-500 ">
-        <thead className="bg-slate-200 border border-slate-800">
-          <tr className="border border-slate-800">
-            <th className="w-1/8 text-start">Proveedor</th>
-            <th class="w-[100px] text-start">Codigo</th>
-            <th className="w-1/2">Titulo</th>
-            <th className="w-1/8">Precio</th>
-            {/* <th>Imagen</th> */}
-            <th className="w-1/8">+</th>
-          </tr>
-        </thead>
-        <tbody>
-          {productos &&
-            productos.map((producto) => {
-              //   if(producto.proveedor !== "Ñandu")
-              {
-                return (
-                  <tr className="border-[1px] border-black">
-                    <td className="border-[1px] border-black">
-                      {producto.proveedor}
-                    </td>
-                    <td className="w-[50px]">{producto.codigo}</td>
-                    <td>{producto.titulo}</td>
-                    <td>{producto.precio}</td>
-                    {/* <td><img src={producto.imagenUrl} className="w-[30px] h-[30px]"/></td> */}
-                    <td
-                      class="cursor-pointer"
-                      onClick={() => addToInventory(producto)}
-                    >
-                      +
-                    </td>
-                  </tr>
-                );
-              }
-            })}
-        </tbody>
-      </table>
 
-      {/* {productos? (productos.map((producto) => {
-      <h2>{producto.titulo}</h2>
-    })) : <>No hay productos</>} */}
+      {isLoading && <Spinner />}
+
+      {/* LISTADO VIRTUALIZADO (Reemplaza la tabla estática) */}
+      <div className="flex-grow p-4">
+        <div className="h-full bg-white rounded-lg shadow overflow-hidden flex flex-col">
+          {/* Header de la "tabla" */}
+          <div className="grid grid-cols-12 gap-2 p-3 bg-slate-800 text-white font-bold">
+            <div className="col-span-2">Proveedor</div>
+            <div className="col-span-2">Código</div>
+            <div className="col-span-5">Título</div>
+            <div className="col-span-2">Precio</div>
+            <div className="col-span-1 text-center">+</div>
+          </div>
+
+          <Virtuoso
+            data={productosFiltrados}
+            useWindowScroll={false}
+            itemContent={(index, producto) => (
+              <div className={`grid grid-cols-12 gap-2 p-3 border-b items-center hover:bg-slate-50 ${index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}`}>
+                <div className="col-span-2 text-sm truncate">{producto.proveedor}</div>
+                <div className="col-span-2 font-mono text-sm">{producto.codigo}</div>
+                <div className="col-span-5 text-sm font-medium">{producto.titulo}</div>
+                <div className="col-span-2 text-green-700 font-bold">${producto.precio.toLocaleString()}</div>
+                <div className="col-span-1 text-center">
+                  <button 
+                    onClick={() => addToInventory(producto)}
+                    className="bg-blue-500 hover:bg-blue-700 text-blue w-8 h-8 rounded-full shadow"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            )}
+          />
+        </div>
+      </div>
     </div>
   );
 };
