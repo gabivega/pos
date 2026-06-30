@@ -122,14 +122,6 @@ const showConfirmationModal = (e) => {
         console.log(dolarBlueValue);  
         setShowModal(true)
 
-        // const clearFormData = (object) => {
-        //   Object.values(object).forEach(key => {
-        //     object[key] = ""
-        //   })
-        // }
-        // const resetForm = (form) => {
-        //   Object.values(form.current)
-        // }
         const createPost = await fetch(`${baseUrl}/newProduct`, {
         method : "POST",
         headers: {"content-type":"application/JSON"},

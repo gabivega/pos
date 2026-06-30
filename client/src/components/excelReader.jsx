@@ -10,8 +10,8 @@ const ExcelReader = () => {
 
   const requiredFields = {
     'titulo': 'string',
-    'categoria': 'string',
-   // 'precioCosto': 'number',
+    // 'categoria': 'string',
+   'precioCosto': 'number',
   //  'p.costousd': 'number',
     'margen': 'number',
   //  'precioVenta': 'number',
